@@ -1,5 +1,15 @@
+/*
+  index.css
+  Global stylesheet entry: base resets (globals.css) and Tailwind v4 (@import "tailwindcss").
+*/
 @import "./globals.css";
 @import "tailwindcss";
+
+/* Theme variables and runtime overrides (loaded after Tailwind) */
+@import "./shared/styles/theme.css";
+
+/* Tailwind v4: enable class-based dark mode (html.dark) */
+@custom-variant dark (&:where(.dark, .dark *));
 
 
 

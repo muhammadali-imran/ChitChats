@@ -1,3 +1,7 @@
+/*
+  globals.css
+  Base document styles: box-sizing, typography, form font inheritance, and .visually-hidden utility.
+*/
 * {
   box-sizing: border-box;
 }
@@ -11,6 +15,8 @@ body {
   padding: 0;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,4 +37,89 @@ button, input, textarea, select {
   overflow: hidden;
   white-space: nowrap;
   border: 0;
+}
+
+/* ── Dark theme: override ChitChats utility colors when html has class "dark" ── */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+html.dark .bg-primary-lighter {
+  background-color: #141210;
+}
+
+html.dark .bg-primary-light {
+  background-color: #2d2a22;
+}
+
+html.dark .bg-white {
+  background-color: #252219;
+}
+
+html.dark .text-primary-text-dark {
+  color: #f5f0e6;
+}
+
+html.dark .text-primary-text {
+  color: #c4b896;
+}
+
+html.dark .border-primary-lighter {
+  border-color: #3d372a;
+}
+
+html.dark .border-primary {
+  border-color: #b8950c;
+}
+
+html.dark .hover\:bg-primary-light:hover {
+  background-color: #353024;
+}
+
+html.dark .hover\:bg-primary-lighter:hover {
+  background-color: #2d2a22;
+}
+
+html.dark .focus\:ring-primary-light:focus {
+  --tw-ring-color: rgb(45 42 34 / 0.5);
+}
+
+html.dark input.bg-gray-50,
+html.dark .bg-gray-50 {
+  background-color: #2d2a22;
+  color: #c4b896;
+}
+
+html.dark .text-gray-400 {
+  color: #9ca3af;
+}
+
+html.dark .text-gray-600 {
+  color: #d1d5db;
+}
+
+html.dark .hover\:text-gray-600:hover {
+  color: #f3f4f6;
+}
+
+html.dark .hover\:bg-red-50:hover {
+  background-color: rgb(69 10 10 / 0.4);
+}
+
+html.dark .text-red-600 {
+  color: #f87171;
+}
+
+html.dark .bg-gray-500 {
+  background-color: #374151;
+}
+
+html.dark .shadow-sm,
+html.dark .shadow-xl {
+  --tw-shadow-color: rgb(0 0 0 / 0.35);
 }

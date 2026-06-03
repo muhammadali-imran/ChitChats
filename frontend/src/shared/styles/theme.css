@@ -1,0 +1,53 @@
+/*
+  theme.css
+  Exposes CSS variables mapped from JS tokens. Loaded after Tailwind so
+  these rules take precedence and allow components to use the JS token
+  values via variables (and override some utility classes like bg-white).
+*/
+:root {
+  --color-background: #FFF7ED; /* warmer light background */
+  --color-surface: #FFFBF7;    /* warm surface (cards/panels) */
+  --color-text-primary: #111827;
+  --color-text-secondary: #475569;
+  --color-border: #E2E8F0;
+  --color-accent: #7C3AED;
+  --color-accent-soft: rgba(124, 58, 237, 0.12);
+  --color-badge: #10B981;
+  --brand-pr: #FCCA1E;
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* Dark theme fallbacks; runtime will also set these variables inline. */
+html.dark {
+  --color-background: #0F172A;
+  --color-surface: #111827;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-border: #334155;
+  --color-accent: #818CF8;
+  --color-accent-soft: rgba(129, 140, 248, 0.16);
+  --color-badge: #34D399;
+  --brand-pr: #FCCA1E;
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+}
+
+/* Map commonly used utility classes to the CSS variables so components
+   that use Tailwind tokens like `bg-white` or `text-primary-text` will
+   follow the JS token values. These rules are intentionally simple and
+   loaded after Tailwind so they override the generated utilities. */
+.bg-white { background-color: var(--color-surface) !important; }
+.text-primary-text-dark { color: var(--color-text-primary) !important; }
+.text-primary-text { color: var(--color-text-secondary) !important; }
+.border-primary-lighter { border-color: var(--color-border) !important; }
+.border-primary { border-color: var(--color-accent) !important; }
+.bg-primary { background-color: var(--brand-pr) !important; }
+.bg-primary-light { background-color: var(--color-surface) !important; }
+.bg-primary-lighter { background-color: var(--color-background) !important; }
+.hover\:bg-primary-light:hover { background-color: var(--color-accent-soft) !important; }
+.hover\:bg-primary-lighter:hover { background-color: var(--color-background) !important; }
+.focus\:ring-primary:focus { --tw-ring-color: color-mix(in srgb, var(--color-accent) 60%, transparent); }
+.focus\:ring-primary-light:focus { --tw-ring-color: var(--color-accent-soft); }
+
+/* small helpers */
+.brand-pr { color: var(--brand-pr); }
+.shadow-theme { box-shadow: var(--shadow); }

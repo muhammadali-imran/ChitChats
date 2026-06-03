@@ -1,10 +1,18 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      try {
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+        }
+      } catch (e) {}
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>ChitChats</title>
   </head>
   <body>
     <div id="root"></div>
@@ -12,6 +20,6 @@
     <!-- Script Section  -->
     <!-- CryptoJS CDN (for AES-CBC + PKCS7) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/Main.jsx"></script>
   </body>
 </html>
