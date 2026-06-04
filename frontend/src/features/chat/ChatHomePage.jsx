@@ -14,8 +14,8 @@ function ChatHomePage({ items = [], onSelect, selectedId, onAdd }) {
   const handleAddChat = createHandleAddChat({ onAdd, setIsModalOpen });
 
   return (
-    <div className="flex flex-col h-full -mx-6 -mt-5">
-      <div className="px-6 py-4 flex justify-between items-center border-b border-primary-lighter bg-primary-light">
+    <div className="flex flex-col h-full">
+      <div className="py-4 flex justify-between items-center border-b border-primary-lighter bg-primary-light">
         <h2 className="text-lg font-semibold text-primary-text-dark">Chats</h2>
         <button
           type="button"

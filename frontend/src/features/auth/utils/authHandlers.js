@@ -1,7 +1,12 @@
 import { validateLogin } from "./validateLogin";
 import { validateSignup } from "./validateSignup";
 import { validateForgot } from "./validateForgot";
-import { setStoredToken } from "./authStorage";
+import { setStoredToken, clearStoredToken } from "./authStorage";
+import {
+  login as apiLogin,
+  register as apiRegister,
+  forgotPassword as apiForgotPassword,
+} from "../api/api";
 
 export function createSwitchMode({ setMode, setErrors, setSuccessMessage }) {
   return (newMode) => {
@@ -16,8 +21,9 @@ export function createHandleLogin({
   setErrors,
   setIsSubmitting,
   setToken,
+  setSuccessMessage,
 }) {
-  return (e) => {
+  return async (e) => {
     e.preventDefault();
     const errs = validateLogin(loginData);
     if (Object.keys(errs).length > 0) {
@@ -25,13 +31,23 @@ export function createHandleLogin({
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
-      console.log("Login:", loginData);
-      const mockToken = "demo-token";
-      setStoredToken(mockToken);
-      setToken(mockToken);
+    setErrors({});
+    setSuccessMessage("");
+    try {
+      // 🟢 Fixed: send email, not username
+      const response = await apiLogin({
+        email: loginData.email,
+        password: loginData.password,
+      });
+      setStoredToken(response.token);
+      setToken(response.token);
+      // 🟢 Fixed: backend returns only token; user is fetched by useEffect
+      setSuccessMessage("Logged in successfully!");
+    } catch (error) {
+      setErrors({ general: error.message });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 }
 
@@ -39,10 +55,9 @@ export function createHandleSignup({
   signupData,
   setErrors,
   setIsSubmitting,
-  setSuccessMessage,
-  switchMode,
+  setToken,
 }) {
-  return (e) => {
+  return async (e) => {
     e.preventDefault();
     const errs = validateSignup(signupData);
     if (Object.keys(errs).length > 0) {
@@ -50,12 +65,22 @@ export function createHandleSignup({
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
-      console.log("Signup:", signupData);
+    setErrors({});
+    try {
+      // 🟢 Fixed: only send email, password, displayName (no username)
+      const response = await apiRegister({
+        email: signupData.email,
+        password: signupData.password,
+        displayName: signupData.name,
+      });
+      setStoredToken(response.token);
+      setToken(response.token);
+      // 🟢 Fixed: no setUser here; useEffect will load profile
+    } catch (error) {
+      setErrors({ general: error.message });
+    } finally {
       setIsSubmitting(false);
-      setSuccessMessage("Account created! Please sign in.");
-      switchMode("login");
-    }, 1500);
+    }
   };
 }
 
@@ -65,7 +90,7 @@ export function createHandleForgotPassword({
   setIsSubmitting,
   setSuccessMessage,
 }) {
-  return (e) => {
+  return async (e) => {
     e.preventDefault();
     const errs = validateForgot(forgotEmail);
     if (Object.keys(errs).length > 0) {
@@ -73,17 +98,26 @@ export function createHandleForgotPassword({
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
-      console.log("Forgot password for:", forgotEmail);
+    setErrors({});
+    setSuccessMessage("");
+    try {
+      const response = await apiForgotPassword({ email: forgotEmail });
+      setSuccessMessage(
+        response.message || "If an account exists, a reset link has been sent."
+      );
+    } catch (error) {
+      setErrors({ general: error.message });
+    } finally {
       setIsSubmitting(false);
-      setSuccessMessage("If an account exists, a reset link has been sent.");
-    }, 1500);
+    }
   };
 }
 
-export function createLogout({ setToken }) {
+export function createLogout({ setToken, setUser, setMode }) {
   return () => {
-    setStoredToken(null);
+    clearStoredToken();
     setToken(null);
+    setUser(null);
+    setMode("login");
   };
 }

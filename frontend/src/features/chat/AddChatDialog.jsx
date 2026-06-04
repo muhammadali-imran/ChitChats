@@ -20,7 +20,7 @@ function AddChatDialog({ onSubmit, onCancel }) {
           id="account-name"
           type="text"
           className="w-full border border-primary-lighter rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          placeholder="e.g. John Doe"
+          placeholder="e.g. username"
           value={accountName}
           onChange={(e) => setAccountName(e.target.value)}
           autoFocus

@@ -77,7 +77,7 @@
 
       // send to server
       try {
-        const resp = await fetch("/api/send/", {
+        const resp = await fetch("/api/chat/receive-encrypted/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ payload: payloadB64 })

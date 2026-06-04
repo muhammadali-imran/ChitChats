@@ -1,5 +1,6 @@
 import React from "react";
 import EyeIcon from "./EyeIcon"; // We'll define a small helper component for the icon
+import SocialLogin from "./SocialLogin";
 
 const LoginForm = ({
   formData,
@@ -12,6 +13,7 @@ const LoginForm = ({
   switchToForgot,
 }) => {
   return (
+    <>
     <form onSubmit={onSubmit} className="space-y-5" noValidate>
       <div>
         <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -84,6 +86,8 @@ const LoginForm = ({
         {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
     </form>
+    <SocialLogin />
+    </>
   );
 };
 

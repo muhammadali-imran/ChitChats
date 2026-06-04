@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useAuth from "../../auth/hooks/useAuth";
+import { useAuth } from "../../auth/hooks/useAuth.jsx";
 import {
   createLoadProfileEffect,
   createSaveProfile,

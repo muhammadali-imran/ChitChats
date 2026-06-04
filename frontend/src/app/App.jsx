@@ -4,7 +4,7 @@
 */
 import { useState } from "react";
 import Header from "../shared/components/Header";
-import { AuthPage } from "../features/auth";
+import { AuthPage, useAuth } from "../features/auth";
 import Footer from "../shared/components/Footer";
 import ConfirmDialog from "../shared/components/ConfirmDialog";
 import usePersistedList from "../shared/hooks/usePersistedList";
@@ -88,10 +88,28 @@ function App() {
     setConfirmType,
   });
 
+  const { token } = useAuth();
   const welcomeCopy = getWelcomeCopy(activeSection);
 
+  if (!token) {
+    return (
+      <div className="h-screen overflow-hidden bg-primary-lighter text-primary-text-dark flex flex-col">
+        <Header
+          activeSection={activeSection}
+          onSectionChange={handleSectionChange}
+          onOpenSettings={() => setMainView("settings")}
+          onOpenAuth={() => setMainView("auth")}
+        />
+        <main className="flex-1 overflow-y-auto">
+          <AuthPage />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-primary-lighter text-primary-text-dark flex flex-col">
+    <div className="h-screen overflow-hidden bg-primary-lighter text-primary-text-dark flex flex-col">
       <Header
         activeSection={activeSection}
         onSectionChange={handleSectionChange}
@@ -100,8 +118,12 @@ function App() {
       />
 
       <div className="flex flex-col xl:flex-row flex-1 overflow-hidden min-h-0">
-        <aside className="w-full xl:w-[420px] border-r border-primary-lighter bg-primary-light shadow-sm overflow-y-auto shrink-0">
-          <div className="px-6 py-5">
+        {activeSection === "settings" ? (
+          <SettingsPage onClose={() => setMainView("welcome")} />
+        ) : null}
+
+        <aside className="w-full xl:w-[420px] border-r border-primary-lighter bg-primary-light shadow-sm overflow-hidden flex flex-col shrink-0">
+          <div className="flex-1 min-h-0 flex flex-col">
             {activeSection === "chat" ? (
               <ChatHomePage
                 items={chats}
@@ -109,14 +131,14 @@ function App() {
                 onSelect={(thread, action) => handleThreadSelect(thread, action, "chat")}
                 onAdd={handleAddChat}
               />
-            ) : (
+            ) : activeSection === "community" ? (
               <CommunityHomePage
                 items={communities}
                 selectedId={selectedThread?.id}
                 onSelect={(group, action) => handleThreadSelect(group, action, "community")}
                 onAdd={handleAddCommunity}
               />
-            )}
+            ) : null}
           </div>
         </aside>
 
@@ -128,10 +150,6 @@ function App() {
                 onBack={handleBackFromMessages}
                 onThreadUpdate={handleThreadUpdate}
               />
-            ) : mainView === "settings" ? (
-              <SettingsPage onClose={() => setMainView("welcome")} />
-            ) : mainView === "auth" ? (
-              <AuthPage onClose={() => setMainView("welcome")} />
             ) : (
               <div className="h-full flex items-center justify-center">
                 <div className="max-w-xl text-center">
@@ -144,8 +162,6 @@ function App() {
             )}
           </div>
         </main>
-          
-
       </div>
 
       <ConfirmDialog
@@ -155,8 +171,8 @@ function App() {
         onClose={closeConfirmDialog}
         onConfirm={handleConfirmDelete}
       />
-    <Footer />
-  </div>
+      <Footer />
+    </div>
   );
 }
 

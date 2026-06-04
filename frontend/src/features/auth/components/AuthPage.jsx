@@ -1,5 +1,5 @@
 import React from "react";
-import useAuth from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth.jsx";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import ForgotPasswordForm from "./ForgotPasswordForm";
@@ -38,8 +38,8 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+    <div className="min-h-full w-full flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 px-4 py-8">
+      <div className="my-auto w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
@@ -61,10 +61,15 @@ const AuthPage = () => {
           <p className="text-gray-500 mt-1">{subText[mode]}</p>
         </div>
 
-        {/* Success message */}
+        {/* Success or error messages */}
         {successMessage && (
           <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
             {successMessage}
+          </div>
+        )}
+        {errors.general && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            {errors.general}
           </div>
         )}
 

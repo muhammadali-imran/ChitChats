@@ -7,11 +7,14 @@ import { createRoot } from "react-dom/client";
 import { initTheme } from "./shared/utils/theme";
 import "./index.css";
 import App from "./app/App.jsx";
+import { AuthProvider } from "./features/auth";
 
 initTheme();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </StrictMode>,
 );

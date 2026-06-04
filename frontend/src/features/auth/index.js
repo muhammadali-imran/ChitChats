@@ -1,2 +1,2 @@
 export { default as AuthPage } from "./components/AuthPage.jsx";
-export { default as useAuth } from "./hooks/useAuth.js";
+export { AuthProvider, useAuth } from "./hooks/useAuth.jsx";
